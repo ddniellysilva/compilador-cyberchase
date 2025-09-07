@@ -463,8 +463,8 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "aula1.l"
-#line 2 "aula1.l"
+#line 1 "badbunny.l"
+#line 2 "badbunny.l"
 	//definições,funções... (código C)
 #line 470 "lex.yy.c"
 /*expressões regulares (definições regulares(GALS))*/
@@ -685,10 +685,10 @@ YY_DECL
 		}
 
 	{
-#line 12 "aula1.l"
+#line 12 "badbunny.l"
 
 
-#line 15 "aula1.l"
+#line 15 "badbunny.l"
 	/*tokens*/
 
 #line 695 "lex.yy.c"
@@ -750,35 +750,35 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 17 "aula1.l"
+#line 17 "badbunny.l"
 {
 	printf("Fim do programa\n");
 	}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 21 "aula1.l"
+#line 21 "badbunny.l"
 {
 	printf("Início do programa\n");
 	}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 25 "aula1.l"
+#line 25 "badbunny.l"
 {
 	printf("Número: %s\n",yytext);
 	}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 29 "aula1.l"
+#line 29 "badbunny.l"
 {
 	printf("Operação: %s\n",yytext);
 	}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 33 "aula1.l"
+#line 33 "badbunny.l"
 {
 	printf("Variável: %s\n",yytext);
 	}
@@ -786,14 +786,14 @@ YY_RULE_SETUP
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 37 "aula1.l"
+#line 37 "badbunny.l"
 {
 	//printf("Caractere ignorado\n");
 	}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 40 "aula1.l"
+#line 40 "badbunny.l"
 ECHO;
 	YY_BREAK
 #line 800 "lex.yy.c"
@@ -1801,13 +1801,13 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 40 "aula1.l"
+#line 40 "badbunny.l"
 
 
 /*definições*/
 
 int main(){
-	yyin=fopen("chato-eh-vc.bb","r"); //abre o código fonte
+	yyin=fopen("main.bb","r"); //abre o código fonte
 	yylex();	//chama o analizador léxico
 	fclose(yyin); //fecha o código fonte
 return 0;

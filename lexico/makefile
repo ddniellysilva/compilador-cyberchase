@@ -1,5 +1,5 @@
-all: aula1.l
+all: badbunny.l
 	clear
-	flex -i aula1.l
-	gcc lex.yy.c -o aula1 -lfl
-	./aula1
+	flex -i badbunny.l
+	gcc lex.yy.c -o badbunny -lfl
+	./badbunny
