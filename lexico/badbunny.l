@@ -1,48 +1,157 @@
 %{
-	//definições,funções... (código C)
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <string.h>
+  extern FILE *yyin;
+
+  int line = 1;
+
+  char* remover_aspas(char* s){
+      
+    int tam=strlen(s);
+
+    if(tam<2){
+        char *scopy = malloc(1);
+        if (scopy) scopy[0]='\0';
+        return scopy;
+    }
+
+    char *scopy = malloc(tam-1);
+
+    strncpy(scopy, s+1, tam-2);
+    scopy[tam-2] = '\0';
+
+    return scopy;
+  }
 %}
 
-/*expressões regulares (definições regulares(GALS))*/
+%x COMMENT
 
-NUM [0-9]+
-LETRA [A-Za-z]+
-SIMB [-+*/=]
-IGNORE [ \n\t]
+/* Definições */
+NUM     [0-9]+
+LETRA   [A-Za-z_]+
+SIMB    [-+*/=]
+IGNORE  [ \n\t\r]
 
 %%
+{IGNORE}+   { }
+\n          { line++; }
 
-	/*tokens*/
+    /* A) Comentários */
+%.*             { /* comentário de linha */ }
+"<%"            { BEGIN(COMMENT); } 
+<COMMENT>"%>"  { BEGIN(INITIAL); } 
+<COMMENT>\n     { line++; }
+<COMMENT>.      { /* ignora dentro do comentário */ }
 
-"FIM" {
-	printf("Fim do programa\n");
-	}
+    /* C) Operadores */
+    /* - Operadores Lógicos */
+">="        { printf("OPERADOR_LOGICO:                  %s\n", yytext); }
+"<="        { printf("OPERADOR_LOGICO:                  %s\n", yytext); }
+"=="        { printf("OPERADOR_LOGICO:                  %s\n", yytext); }
+"!="        { printf("OPERADOR_LOGICO:                  %s\n", yytext); }
+"ou"        { printf("OPERADOR_LOGICO:                  %s\n", yytext); }
+"e"       { printf("OPERADOR_LOGICO:                  %s\n", yytext); }
+">"         { printf("OPERADOR_LOGICO:                  %s\n", yytext); }
+"<"         { printf("OPERADOR_LOGICO:                  %s\n", yytext); }
+"!"         { printf("OPERADOR_LOGICO:                  %s\n", yytext); }
 
-"INICIO" {
-	printf("Início do programa\n");
-	}
+    /* - Operadores para atribuições */
 
-{NUM} {
-	printf("Número: %s\n",yytext);
-	}
-	
-{SIMB} {
-	printf("Operação: %s\n",yytext);
-	}
+"->"        { printf("OPERADOR_ATRIBUICAO:              %s\n", yytext); }
+"+="        { printf("OPERADOR_ATRIBUICAO:              %s\n", yytext); }
+"-="        { printf("OPERADOR_ATRIBUICAO:              %s\n", yytext); }
 
-{LETRA}({LETRA}|{NUM})* {
-	printf("Variável: %s\n",yytext);
-	}
-	
-{IGNORE} {
-	//printf("Caractere ignorado\n");
-	}
+    /* - Operadores aritméticos */
+
+"+"         { printf("OPERADOR_ARITMETICO:              %s\n", yytext); }
+"*"         { printf("OPERADOR_ARITMETICO:              %s\n", yytext); }
+"-"         { printf("OPERADOR_ARITMETICO:              %s\n", yytext); }
+"/"         { printf("OPERADOR_ARITMETICO:              %s\n", yytext); }
+
+    /* D) Operação de leitura */
+
+"leia"      { printf("OPERADOR_INPUT:                   %s\n", yytext);}
+
+    /* E) Operação de escrita */
+"escreva"   { printf("OPERADOR_OUTPUT:                  %s\n", yytext);}
+
+    /* F) Operações de condição */
+"se"        { printf("PALAVRA_RESERVADA_CONDICIONAL:    %s\n", yytext); }
+"senao"      { printf("PALAVRA_RESERVADA_CONDICIONAL:    %s\n", yytext); } 
+"escolha"    { printf("PALAVRA_RESERVADA_CONDICIONAL:    %s\n", yytext); } 
+"opcao"      { printf("PALAVRA_RESERVADA_CONDICIONAL:    %s\n", yytext); } 
+
+    /* G) Operações de repetição */
+"para"       { printf("PALAVRA_RESERVADA_REPETIÇÃO:      %s\n", yytext); }
+"enquanto"   { printf("PALAVRA_RESERVADA_REPETIÇÃO:      %s\n", yytext); }
+"faca"      { printf("PALAVRA_RESERVADA_REPETIÇÃO:      %s\n", yytext); }
+
+    /* H) Delimitadores */
+"("         { printf("DELIMITADOR:                      %s\n", yytext); }
+")"         { printf("DELIMITADOR:                      %s\n", yytext); }
+"{"         { printf("DELIMITADOR:                      %s\n", yytext); }
+"}"         { printf("DELIMITADOR:                      %s\n", yytext); }
+"["         { printf("DELIMITADOR:                      %s\n", yytext); }
+"]"         { printf("DELIMITADOR:                      %s\n", yytext); }
+
+    /* I) Palavras reservadas */
+"retorne"    { printf("RETURN:                           %s\n", yytext); }
+"int"       { printf("TIPO_INT:                         %s\n", yytext); }
+"float"     { printf("TIPO_FLOAT:                       %s\n", yytext); }
+"char"      { printf("TIPO_CHAR:                        %s\n", yytext); }
+"string"    { printf("TIPO_STRING:                      %s\n", yytext); }
+"bool"      { printf("TIPO_BOOLEAN:                     %s\n", yytext); }
+"verdadeiro"      { printf("TRUE_BOOLEAN:                     %s\n", yytext); }
+"falso"     { printf("FALSE_BOOLEAN:                    %s\n", yytext); }
+
+    /* J) Caracteres especiais */
+","         { printf("CARACTERE_ESPECIAL:               %s\n", yytext); }
+";"         { printf("CARACTERE_ESPECIAL:               %s\n", yytext); }
+"\""        { printf("CARACTERE_ESPECIAL:               %s\n", yytext); }
+"'"         { printf("CARACTERE_ESPECIAL:               %s\n", yytext); }
+
+    /* B) Identificadores */
+{LETRA}({LETRA}|{NUM})*  { printf("ID:                               %s\n", yytext); }
+{NUM}+\.{NUM}           { printf("PONTO_FLUTUANTE:                  %s\n", yytext); }
+{NUM}+                  { printf("INTEIRO:                          %s\n", yytext);}
+
+\"([^"\n])*\"   {
+    char* stringSemAspas=remover_aspas(yytext);
+    printf("STRING:                           %s\n", stringSemAspas); 
+    free(stringSemAspas);
+}
+
+'([^'\n])'      { 
+    char* stringSemAspas=remover_aspas(yytext);
+    printf("CHAR:                             %s\n", stringSemAspas); 
+    free(stringSemAspas);
+}
+
+
+    /* Erro Léxico */
+.           { printf("ERRO: Caractere nao reconhecido '%s' na linha %d\n", yytext, line); }
 %%
 
-/*definições*/
+int main(int argc, char *argv[]){
+    FILE *arquivo;
+    if (argc > 1) {
+        arquivo = fopen(argv[1], "r");
+        if (!arquivo) {
+            printf("Erro ao abrir o arquivo %s\n", argv[1]);
+            return 1;
+        }
+        yyin = arquivo;
+        printf("* Análise Léxica do arquivo: %s *\n\n", argv[1]);
+    } else {
+        printf("* Análise Léxica (entrada padrao) *\n");
+        printf("Digite o codigo (Ctrl+D para finalizar):\n\n");
+    }
 
-int main(){
-	yyin=fopen("main.bb","r"); //abre o código fonte
-	yylex();	//chama o analizador léxico
-	fclose(yyin); //fecha o código fonte
-return 0;
+    yylex();
+
+    if (argc > 1) fclose(arquivo);
+
+    printf("\n* Análise Léxica Concluída *\n");
+    return 0;
 }
