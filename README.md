@@ -39,14 +39,14 @@ O Yacc/Bison é o “parceiro” do Lex/Flex. Enquanto o Lex reconhece as palavr
 * O Lex identifica tokens (ex: TIPO_INT, VARIAVEL, IGUAL, DIGITO);
 * O Yacc usa esses tokens para entender as regras de como o programa deve ser estruturado.
 
-### Requisitos para execução (Windows):
+## 💽 Requisitos para execução (Windows):
 
 * WSL;
 * Compilador C;
 * Flex;
 * Bison;
 
-### Instalação e execução (Windows):
+## 💻 Instalação e execução (Windows):
 
 1. Clone este repositório ```git clone https://github.com/ddniellysilva/compilador-cyberchase.git``` ou faça o download dos arquivos;
 2. Abra o projeto na IDE de sua preferência;
