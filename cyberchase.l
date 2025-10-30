@@ -24,11 +24,11 @@
 
 DIGITO      [0-9]+\.?[0-9]*
 VARIAVEL    [A-Za-z_]+
-TEXTO        \".*\"
-ESPACOS      [ \n\t\r]
+TEXTO       \".*\"
+ESPACOS     [ \n\t\r]
 
 %%
-{ESPACOS}+   { }
+{ESPACOS}+  { }
 \n          { line++; }
 
     /* marcadores de início e fim do programa */
@@ -38,10 +38,10 @@ ESPACOS      [ \n\t\r]
 
     /* formas de comentários da linguagem */
 
-#.*             { /* comentário de linha */ }
-"#."            { BEGIN(COMMENT); } 
-<COMMENT>".#"   { BEGIN(INITIAL); } 
-<COMMENT>\n     { line++; }
+>.*           { /* comentário de linha */ }
+"<"             { BEGIN(COMMENT); } 
+<COMMENT>"/>"   { BEGIN(INITIAL); } 
+<COMMENT>\n     { line++;         }
 <COMMENT>.      { /* ignora dentro do comentário */ }
 
     /* operadores lógicos */
@@ -122,7 +122,7 @@ ESPACOS      [ \n\t\r]
                                     return VARIAVEL;
                                  }
 {DIGITO}                         {
-                                    // reconhece números
+                                    // reconhece números reais
                                     yylval.real = atof(yytext);
                                     return DIGITO;
                                  }
