@@ -1,6 +1,6 @@
 %{
   #include<stdio.h>
-  int variaveis[26];
+  float variaveis[26];
 
   int yylex(); // função do analisador léxico que envia os tokens pra cá
   void yyerror (char *s){
@@ -23,10 +23,10 @@
 %token <string> TEXTO;
 %token IGUAL INCREMENTAR DECREMENTAR;
 
+%type <real> EXPRESSOES;
+
 %left '+' '-'   // ordem de precedência
 %left '*' '/'   // das operações matemáticas
-
-%type <real> EXPRESSOES;
 
 %%
 
@@ -44,7 +44,7 @@ lista_de_comandos:                                                    // FORMATO
   | TIPO_INT VARIAVEL DECREMENTAR DIGITO ';' { variaveis[$2] -= $4; } // int a -- 5;
 
   | ESCREVER '(' opcoes ')' ';' // escrever(<opcoes>);
-  | LER '(' VARIAVEL ')' ';' { scanf("%d", &variaveis[$3]); } // ler(variavel);
+  | LER '(' VARIAVEL ')' ';' { scanf("%f", &variaveis[$3]); } // ler(variavel);
   ;
 
 opcoes:
@@ -68,29 +68,46 @@ EXPRESSOES: EXPRESSOES '+' EXPRESSOES {$$ = $1 + $3;}
           | VARIAVEL                  {$$ = variaveis[$1];}
           ;
 %%
+#include <stdio.h>
 #include "lex.yy.c"
 
-int main(int argc, char *argv[]){
-  FILE *arquivo;
-  if (argc > 1) {
-      arquivo = fopen(argv[1], "r");
-      if (!arquivo) {
-          printf("Ocorreu um erro ao abrir o arquivo %s\n", argv[1]);
-          return 1;
-      }
-      yyin = arquivo;
-      printf("\t ANÁLISE LÉXICA E SINTÁTICA - %s \t\n\n", argv[1]);
-  } else {
-      printf("=== Analise Sintática (entrada padrao) ===\n");
-      printf("Digite o codigo (Ctrl+D para finalizar):\n\n");
-  }
+// função auxiliar para abrir o arquivo
+FILE* abrir_arquivo(const char *nome_arquivo) {
+    FILE *arquivo = fopen(nome_arquivo, "r");
+    if (!arquivo) {
+        fprintf(stderr, "Erro ao abrir o arquivo: %s\n", nome_arquivo);
+        return NULL;
+    }
+    return arquivo;
+}
 
-  yyparse();
+int main(int argc, char *argv[]) {
+    FILE *arquivo = NULL;
 
-  yylex();
+    if (argc > 1) {
+        // se o usuário passou o nome do arquivo como argumento
+        arquivo = abrir_arquivo(argv[1]);
+        if (!arquivo) return 1;
 
-  if (argc > 1) fclose(arquivo);
+        yyin = arquivo; // define o arquivo de entrada do Flex
+        printf("\n🔍 INICIANDO ANÁLISE LÉXICA E SINTÁTICA: %s\n\n", argv[1]);
+    } else {
+        // caso o usuário digite o código direto no terminal
+        printf("ANÁLISE SINTÁTICA \n");
+        printf("DIGITE SEU CÓDIGO: \n");
+        
+        yyin = stdin; // lê da entrada padrão
+    }
 
-  printf("\t ANÁLISES CONCLUÍDAS COM SUCESSO \n");
-  return 0;
+    // inicia o processo de análise
+    if (yyparse() == 0) {
+        printf("\n ANÁLISE CONCLUÍDA COM SUCESSO \n");
+    } else {
+        printf("\n OCORREU UM ERRO DURANTE A ANÁLISE \n");
+    }
+
+    // fecha o arquivo, se houver
+    if (arquivo) fclose(arquivo);
+
+    return 0;
 }
