@@ -1,9 +1,14 @@
-<h1 align="center">Cyberchase | Compilador</h1>
+<div align="center">
 
-<img align='center' src="https://www.90sdvds.com/images/Cyberchase.png" alt="Cyberchase">
+# Cyberchase | Compilador
 
+<img src="https://www.90sdvds.com/images/Cyberchase.png" alt="Cyberchase" width="400"/>
 
-<p align="center">Projeto da disciplina de Compiladores (2025.2) do Bacharelado em Ciência da Computação do IFCE</p>
+<p>
+  Projeto da disciplina de Compiladores (2025.2) do Bacharelado em Ciência da Computação do IFCE
+</p>
+
+</div>
 
 ## 💾 Sobre o projeto:
 
@@ -31,29 +36,6 @@ O Lex trabalha em três partes principais, separadas por %%:
 1. Declarações e código C inicial;
 2. Regras léxicas;
 3. Código auxiliar (C).
-
-| Categoria                    | Símbolo / Palavra                        | Descrição / Função                       | Token / Ação                                 |
-| ---------------------------- | ---------------------------------------- | ---------------------------------------- | -------------------------------------------- |
-| **Marcadores de Programa**   | `inicio` / `fim`                         | Início e fim do código                   | `INICIO`, `FIM`                              |
-| **Comentário**               | `% ...`                                  | Comentário de linha                      | Ignorado                                     |
-|                              | `<% ... %>`                              | Comentário de bloco                      | Ignorado                                     |
-| **Operadores Lógicos**       | `>`, `<`, `>=`, `<=`, `==`, `!=`         | Comparações entre valores                | `OPERADOR_LOGICO`                            |
-|                              | `and`, `or`, `!`                         | Operadores lógicos booleanos             | `OPERADOR_LOGICO`                            |
-| **Operadores Aritméticos**   | `+`, `-`, `*`, `/`                       | Soma, subtração, multiplicação e divisão | `'+'`, `'-'`, `'*'`, `'/'`                   |
-| **Operadores de Atribuição** | `->`                                     | Atribuição de valor a variável           | `IGUAL`                                      |
-|                              | `++`, `--`                               | Incremento e decremento                  | `INCREMENTAR`, `DECREMENTAR`                 |
-| **Entrada / Saída**          | `ler`, `escrever`                        | Leitura e escrita de variáveis           | `LER`, `ESCREVER`                            |
-| **Estruturas Condicionais**  | `se`, `senao`, `caso`, `escolha`         | Estruturas de decisão                    | Impressão de `PALAVRA_RESERVADA_CONDICIONAL` |
-| **Estruturas de Repetição**  | `para`, `enquanto`, `faca`               | Estruturas de loop                       | Impressão de `PALAVRA_RESERVADA_REPETIÇÃO`   |
-| **Tipos de Dados**           | `int`, `float`, `char`, `string`, `bool` | Declaração de tipos                      | `TIPO_INT`, `TIPO_FLOAT`, etc.               |
-| **Booleanos**                | `verdadeiro`, `falso`                    | Constantes booleanas                     | `TRUE_BOOLEAN`, `FALSE_BOOLEAN`              |
-| **Delimitadores**            | `(`, `)`, `{`, `}`, `[`, `]`             | Agrupamento e escopo                     | Retorna o próprio símbolo                    |
-| **Separadores**              | `,`, `;`                                 | Lista de variáveis / fim de instrução    | Retorna o próprio símbolo                    |
-| **Caracteres Especiais**     | `'`, `"`                                 | Aspas simples e duplas                   | Apenas impressos                             |
-| **Identificadores**          | `[A-Za-z_]+`                             | Nome de variável                         | `VARIAVEL`                                   |
-| **Números**                  | `[0-9]+\.?[0-9]*`                        | Números inteiros ou reais                | `DIGITO`                                     |
-| **Texto**                    | `"..."`                                  | Cadeia de caracteres                     | `TEXTO`                                      |
-| **Erro Léxico**              | Qualquer outro símbolo                   | Caractere inválido                       | Mensagem de erro                             |
 
 ### Analisador sintático - ```cyberchase.y```:
 
