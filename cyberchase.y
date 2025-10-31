@@ -17,7 +17,7 @@
 
 %token INICIO FIM;
 %token LER ESCREVER;
-%token TIPO_INT;
+%token TIPO_INT TIPO_FLOAT;
 %token <real> DIGITO;
 %token <integer> VARIAVEL;
 %token <string> TEXTO;
@@ -34,14 +34,19 @@ program: INICIO start FIM;
 
 start: lista_de_comandos start | lista_de_comandos ;
 
-lista_de_comandos:                                                    // FORMATOS DE DECLARAÇÃO E ATRIBUIÇÃO:
-    TIPO_INT novas_variaveis ';'                                      // int a, b, c;
-  | VARIAVEL IGUAL EXPRESSOES ';'            { variaveis[$1] = $3;  } // a -> 10;
-  | VARIAVEL INCREMENTAR DIGITO ';'          { variaveis[$1] += $3; } // a ++ 5;
-  | VARIAVEL DECREMENTAR DIGITO ';'          { variaveis[$1] -= $3; } // a -- 5;
-  | TIPO_INT VARIAVEL IGUAL EXPRESSOES ';'   { variaveis[$2] = $4;  } // int a -> 10;
-  | TIPO_INT VARIAVEL INCREMENTAR DIGITO ';' { variaveis[$2] += $4; } // int a ++ 5;
-  | TIPO_INT VARIAVEL DECREMENTAR DIGITO ';' { variaveis[$2] -= $4; } // int a -- 5;
+tipo:             // regra de tipo para deixar o código mais legível e limpo 
+    TIPO_INT      // obs.: como ajustar para o compilador diferenciar tipos?
+  | TIPO_FLOAT
+;
+
+lista_de_comandos:                                                 // FORMATOS DE DECLARAÇÃO E ATRIBUIÇÃO:
+    tipo novas_variaveis ';'                                       // int a, b, c;
+  | VARIAVEL IGUAL EXPRESSOES ';'        { variaveis[$1] = $3;  }  // a -> 10;
+  | VARIAVEL INCREMENTAR DIGITO ';'      { variaveis[$1] += $3; }  // a ++ 5;
+  | VARIAVEL DECREMENTAR DIGITO ';'      { variaveis[$1] -= $3; }  // a -- 5;
+  | tipo VARIAVEL IGUAL EXPRESSOES ';'   { variaveis[$2] = $4;  }  // int a -> 10;
+  | tipo VARIAVEL INCREMENTAR DIGITO ';' { variaveis[$2] += $4; }  // int a ++ 5;
+  | tipo VARIAVEL DECREMENTAR DIGITO ';' { variaveis[$2] -= $4; }  // int a -- 5;
 
   | ESCREVER '(' opcoes ')' ';' // escrever(<opcoes>);
   | LER '(' VARIAVEL ')' ';' { scanf("%f", &variaveis[$3]); } // ler(variavel);

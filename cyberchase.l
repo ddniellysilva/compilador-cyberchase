@@ -38,9 +38,9 @@ ESPACOS     [ \n\t\r]
 
     /* formas de comentários da linguagem */
 
->.*           { /* comentário de linha */ }
-"<"             { BEGIN(COMMENT); } 
-<COMMENT>"/>"   { BEGIN(INITIAL); } 
+%.*             { /* comentário de linha */ }
+"<%"             { BEGIN(COMMENT); } 
+<COMMENT>"%>"   { BEGIN(INITIAL); } 
 <COMMENT>\n     { line++;         }
 <COMMENT>.      { /* ignora dentro do comentário */ }
 
@@ -100,7 +100,7 @@ ESPACOS     [ \n\t\r]
 
 "retorne"    { printf("RETURN:                           %s\n", yytext); }
 "int"        { return TIPO_INT;                                          }
-"float"      { printf("TIPO_FLOAT:                       %s\n", yytext); }
+"float"      { return TIPO_FLOAT;                                        }
 "char"       { printf("TIPO_CHAR:                        %s\n", yytext); }
 "string"     { printf("TIPO_STRING:                      %s\n", yytext); }
 "bool"       { printf("TIPO_BOOLEAN:                     %s\n", yytext); }

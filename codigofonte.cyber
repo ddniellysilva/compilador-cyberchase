@@ -1,13 +1,16 @@
 inicio
 
-    <
+    <%
         CALCULADORA DE NOTAS DO IFCE
         TESTANDO COMENTÁRIOS MULTILINHA
-    />
+    %>
 
-    int a, b, c, d, e, f, g;
+    float a, b, c, d, e, f, g;
 
-    > Parte 1: leitura das notas
+    escrever("CALCULADORA DE MÉDIA");
+    escrever("IFCE CAMPUS ARACATI");
+
+    % Parte 1: leitura das notas
     escrever("Digite a primeira nota:  ");
     ler(b);
 
@@ -20,12 +23,12 @@ inicio
     escrever("Digite a quarta nota:  ");
     ler(f);
 
-    > Parte 2:  cálculos das médias
+    % Parte 2:  cálculos das médias
     a -> (b + c) / 2;
     d -> (e + f) / 2;
     g -> ((2 * a) + (3 * d)) / 5;
 
-    > Parte 3:  exibição dos resultados 
+    % Parte 3:  exibição dos resultados 
     escrever("Média da primeira etapa:  ", a);
     escrever("Média da segunda etapa:  ", d);
     escrever("Média final ponderada:  ", g);
